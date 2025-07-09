@@ -1,0 +1,34 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.cache/
+.nuxt/
+.output/
+
+# Nuxt & Vite
+.vite/
+.vscode/
+
+# Env & secrets
+.env
+.env.*.local
+.env.local
+.env.production
+.env.development
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Prisma (si utilisé)
+prisma/.DS_Store
+prisma/migrations/
