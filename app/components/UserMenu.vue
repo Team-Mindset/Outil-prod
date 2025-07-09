@@ -3,7 +3,7 @@
     <UButton
       icon="i-lucide-log-out"
       size="sm"
-      color="red"
+      color="primary"
       @click="handleLogout"
       label="Déconnexion"
     />
