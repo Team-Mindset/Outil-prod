@@ -25,23 +25,17 @@ const username = ref('')
 const password = ref('')
 const user = ref(null) 
 const tokenCookie = useCookie<string | null>('token') 
-const token = ref(tokenCookie.value ?? null)
+const { token } = useAuth()
 
-const login = async () => {
-  const res = await $fetch('/api/login', {
-    method: 'POST',
-    body: { username: username.value, password: password.value }
-  })
-  token.value = res.token
-  tokenCookie.value = res.token /
-  await getMe()
-}
+const router = useRouter()
 
 const logout = async () => {
   await $fetch('/api/logout', { method: 'POST' })
   token.value = null
   if (tokenCookie) tokenCookie.value = null
   user.value = null
+
+  await router.push('/login') // 🔁 Redirection ici
 }
 
 const getMe = async () => {

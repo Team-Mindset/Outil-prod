@@ -5,10 +5,10 @@ let pool: mysql.Pool
 export const getDb = () => {
   if (!pool) {
     pool = mysql.createPool({
-      host: '185.207.226.14',
-      user: 'vesqbc_producti_db',
-      password: '7f-yp!QZWOg6_%49',
-      database: 'vesqbc_producti_db',
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       waitForConnections: true,
       connectionLimit: 10,
     })
