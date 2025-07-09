@@ -35,7 +35,7 @@ const logout = async () => {
   if (tokenCookie) tokenCookie.value = null
   user.value = null
 
-  await router.push('/login') // 🔁 Redirection ici
+  await router.push('/login')
 }
 
 const getMe = async () => {
