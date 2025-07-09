@@ -7,7 +7,7 @@ const toast = useToast()
 const open = ref(false)
 
 const links = [[{
-  label: 'Home',
+  label: 'Dashboard',
   icon: 'i-lucide-house',
   to: '/',
   onSelect: () => {
@@ -42,12 +42,13 @@ const links = [[{
       class="bg-elevated/25"
       :ui="{ footer: 'lg:border-t lg:border-default' }"
     >
-      <template #header="{ collapsed }">
-        <TeamsMenu :collapsed="collapsed" />
-      </template>
+ 
 
       <template #default="{ collapsed }">
-        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
+        <div class="p-4">
+          <img src="/logo-long-blanc.png" alt="Logo" class="h-16 mx-auto mb-2" />
+          <hr class="border-default" />
+        </div>
 
         <UNavigationMenu
           :collapsed="collapsed"
