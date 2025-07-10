@@ -32,5 +32,5 @@ event.context.user = { id: decoded.id } // ou id, username, rang si tu veux
       console.warn('Token invalide')
     }
   }
-  console.log('[AUTH] middleware appelé')
+  // console.log('[AUTH] middleware appelé')
 })
