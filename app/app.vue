@@ -10,7 +10,7 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    { rel: 'icon', href: '/logo-long-blanc.png' }
+    { rel: 'icon', href: '/images/logo-long-blanc.png' }
   ],
   htmlAttrs: {
     lang: 'fr'

@@ -1,4 +1,14 @@
 
+<style>
+.sidebar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px; /* largeur par défaut du sidebar Nuxt UI */
+  z-index: 50;
+}
+</style>
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 const route = useRoute()
@@ -19,6 +29,14 @@ watch(user, () => {
         label: 'Dashboard',
         icon: 'i-lucide-house',
         to: '/',
+        onSelect: () => {
+          open.value = false
+        }
+      },
+       {
+        label: 'Cahier des charges',
+        icon: 'i-lucide-house',
+        to: '/projet',
         onSelect: () => {
           open.value = false
         }
@@ -48,20 +66,20 @@ watch(user, () => {
 </script>
 
 <template>
-  <UDashboardGroup unit="rem">
+  <UDashboardGroup unit="rem" class="fixed inset-0 flex overflow-y-auto h-screen">
    <client-only>
-    <UDashboardSidebar
-      v-if="user"
-      id="default"
-      v-model:open="open"
-      collapsible
-      resizable
-      class="bg-elevated/25"
-      :ui="{ footer: 'lg:border-t lg:border-default' }"
-    >
+  <UDashboardSidebar
+  v-if="user"
+  id="default"
+  v-model:open="open"
+  collapsible
+  resizable
+  class="sidebar-fixed bg-elevated/25 overflow-y-auto h-screen"
+  :ui="{ footer: 'lg:border-t lg:border-default' }"
+>
       <template #default="{ collapsed }">
         <div class="p-4">
-          <img src="/logo-long-blanc.png" alt="Logo" class="h-16 mx-auto mb-2" />
+          <img src="/images/logo-long-blanc.png" alt="Logo" class="h-16 mx-auto mb-2" />
           <hr class="border-default" />
         </div>
 
@@ -90,7 +108,9 @@ watch(user, () => {
     </UDashboardSidebar>
    </client-only>
 
-    <slot />
-    <NotificationsSlideover />
+   <div class="flex-1 pl-[280px]">
+     <slot />
+     <NotificationsSlideover />
+   </div>
   </UDashboardGroup>
 </template>
