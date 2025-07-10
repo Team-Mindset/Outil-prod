@@ -1,6 +1,6 @@
+
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
-
 const route = useRoute()
 const toast = useToast()
 const { user } = useUser()
@@ -49,6 +49,7 @@ watch(user, () => {
 
 <template>
   <UDashboardGroup unit="rem">
+   <client-only>
     <UDashboardSidebar
       v-if="user"
       id="default"
@@ -87,6 +88,7 @@ watch(user, () => {
         <UserMenu :collapsed="collapsed" />
       </template>
     </UDashboardSidebar>
+   </client-only>
 
     <slot />
     <NotificationsSlideover />

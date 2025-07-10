@@ -20,5 +20,4 @@ export const useUser = () => {
 
   watch(() => token.value, () => getMe(), { immediate: true })
 
-  return { user, getMe }
-}
+return { user, getMe, refreshUser: getMe }}

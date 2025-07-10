@@ -14,9 +14,11 @@ export default defineEventHandler(async (event) => {
   const valid = await bcrypt.compare(password, hashedPassword)
   if (!valid) throw createError({ statusCode: 401, message: 'Wrong password' })
 
-  const token = jwt.sign({ id: user.id, username: user.username, email: user.email }, process.env.JWT_SECRET!, { expiresIn: '7d' })
-
-// Après avoir généré le token
+const token = jwt.sign(
+  { id: user.id, username: user.username, rang: user.rang }, // tu peux en garder d'autres si tu veux
+  process.env.JWT_SECRET!,
+  { expiresIn: '1d' }
+)
 setCookie(event, 'token', token, {
   httpOnly: true, // reste pour la sécurité côté API
   maxAge: 60 * 60 * 24 * 7,

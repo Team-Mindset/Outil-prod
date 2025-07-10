@@ -1,22 +1,26 @@
 <script setup lang="ts">
-const { user } = useUser()
+import type { NavigationMenuItem } from '@nuxt/ui'
+
+const links = [
+  [
+    { label: 'Informations', icon: 'i-lucide-user', to: '/me' },
+    { label: 'Avatar', icon: 'i-lucide-image', to: '/me/avatar' },
+    { label: 'Statistiques', icon: 'i-lucide-bar-chart-2', to: '/me/stats' }
+  ]
+] satisfies NavigationMenuItem[][]
 </script>
 
 <template>
   <UDashboardPanel>
     <template #header>
-      <UDashboardNavbar title="Profil utilisateur" />
+      <UDashboardToolbar>
+        <UNavigationMenu :items="links" highlight class="flex-1" />
+      </UDashboardToolbar>
     </template>
-
     <template #body>
-      <div v-if="user">
-        <h2 class="text-xl font-bold mb-4">Informations de l'utilisateur</h2>
-        <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
-        <p><strong>Email :</strong> {{ user.email }}</p>
-      </div>
-      <div v-else>
-        <p>Non connecté.</p>
-      </div>
+      <client-only>
+        <NuxtPage />
+      </client-only>
     </template>
   </UDashboardPanel>
 </template>
