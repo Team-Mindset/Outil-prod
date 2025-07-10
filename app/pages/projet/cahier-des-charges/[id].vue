@@ -10,10 +10,11 @@ const route = useRoute()
 const projet = ref(null)
 const cahierDesChargesRaw = ref(null)
 const dataJson = ref<Record<string, any> | null>(null)
+const saveMessage = ref('')  // <-- ajout pour message de sauvegarde
 
-// Récupération utilisateur connecté - adapte selon ta gestion user
-// Exemple fictif ici, remplace par ta source réelle
-const userId = 123 // à remplacer par l'ID de l'utilisateur connecté
+const { user } = useUser()
+const userId = computed(() => user.value?.id || null)
+
 
 // --- Fonction fetch ---
 async function fetchData() {
@@ -30,6 +31,7 @@ async function fetchData() {
   }
 }
 await fetchData()
+
 function toLocalISOString(date: Date) {
   const tzoffset = date.getTimezoneOffset() * 60000 // décalage en ms
   return new Date(date.getTime() - tzoffset).toISOString().slice(0, -1)
@@ -37,20 +39,22 @@ function toLocalISOString(date: Date) {
 
 // --- Autosave avec debounce ---
 const autosave = debounce(async () => {
-  if (!dataJson.value) return
+  if (!dataJson.value || !userId.value) return
 
   try {
     await $fetch(`/api/cahier-des-charges/${route.params.id}`, {
       method: 'PATCH',
       body: {
         data_json: JSON.stringify(dataJson.value),
-       last_saved_at: toLocalISOString(new Date()),
-        userId_save: userId
+        last_saved_at: toLocalISOString(new Date()),
+        userId_save: userId.value
       }
     })
-    console.log('Autosave OK')
+    saveMessage.value = 'Sauvegardé ✓'
+    setTimeout(() => { saveMessage.value = '' }, 2000)
   } catch (e) {
-    console.error('Erreur autosave:', e)
+    saveMessage.value = 'Erreur lors de la sauvegarde'
+    setTimeout(() => { saveMessage.value = '' }, 2000)
   }
 }, 1000)
 
@@ -58,7 +62,6 @@ const autosave = debounce(async () => {
 watch(dataJson, () => {
   autosave()
 }, { deep: true })
-
 </script>
 
 <template>
@@ -78,5 +81,18 @@ watch(dataJson, () => {
       </div>
     </form>
   </div>
+
   <div v-else class="p-4 max-w-3xl mx-auto">Chargement...</div>
+
+<div
+  v-if="saveMessage"
+  class="fixed right-4 top-1/2 pointer-events-none"
+  style="z-index: 9999; transform: translateY(-50%);"
+>
+  <div
+    class="bg-green-600 text-white px-6 py-3 rounded shadow-lg font-semibold select-none pointer-events-auto"
+  >
+    {{ saveMessage }}
+  </div>
+</div>
 </template>
